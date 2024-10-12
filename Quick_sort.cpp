@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib> // for rand() function
+#include <vector>
 #include <time.h>
 
 int generateRandomNumber(int min, int max)
@@ -8,13 +9,13 @@ int generateRandomNumber(int min, int max)
   return min + rand() % (max - min + 1);
 }
 
-int partition(int *arr, int s, int e)
+int partition(std::vector<int> &arr, int low, int high)
 {
-  std::swap(arr[generateRandomNumber(s, e)], arr[e]);
-  int pivot = arr[e];
-  int i = s - 1;
+  std::swap(arr[generateRandomNumber(low, high)], arr[high]);
+  int pivot = arr[high];
+  int i = (low - 1);
 
-  for (int j = s; j < e; ++j)
+  for (int j = low; j < high; ++j)
   {
     if (arr[j] <= pivot)
     {
@@ -22,31 +23,32 @@ int partition(int *arr, int s, int e)
       std::swap(arr[i], arr[j]);
     }
   }
-  std::swap(arr[i + 1], arr[e]);
-
-  return i + 1;
+  std::swap(arr[i + 1], arr[high]);
+  return (i + 1);
 }
 
-void quickSort(int *arr, int left, int right)
+void QuickSort(std::vector<int> &arr, int low, int high)
 {
-  if (left < right)
+  if (low < high)
   {
-    int pivot = partition(arr, left, right);
-    quickSort(arr, pivot + 1, right);
-    quickSort(arr, left, pivot - 1);
+    int pi = partition(arr, low, high);
+    QuickSort(arr, low, pi - 1);
+    QuickSort(arr, pi + 1, high);
   }
 }
 
 int main()
 {
-
-  int arr[10] = {88, 9, 4, 5, 6, 11, 20, 50, 40, -1};
-
-  quickSort(arr, 0, 9);
-  for (int i = 0; i < 10; ++i)
-  {
-    std::cout << arr[i] << " ";
-  }
-
-  return 0;
+  std::vector<int> arr = {10, 7, 8, 9, 1, 5};
+  QuickSort(arr, 0, arr.size() - 1);
 }
+
+// Time Complexity:
+//  Best/Average case: O(n log n) (balanced partitions).
+//  Worst case: O(n^2) (highly unbalanced partitions, e.g., when array is already sorted).
+
+// Space Complexity:
+//  Space complexity: O(log n) (due to recursion stack in balanced partitions).
+
+// Stability:
+//  Not stable: The relative order of equal elements can change.

@@ -1,6 +1,7 @@
 #include <iostream>
+#include <vector>
 
-void heapify(int *arr, int N, int i)
+void heapify(std::vector<int> &arr, int N, int i)
 {
 
   int largist = i;   // parent index
@@ -21,10 +22,11 @@ void heapify(int *arr, int N, int i)
   }
 }
 
-void heap_sort(int arr[], int N) // O( nlogn)
+void HeapSort(std::vector<int> &arr)
 {
+  int N = arr.size();
 
-  // sort heap  time complexity O( logn )
+  // sort heap  time complexity O(logn)
   for (int i = N / 2 - 1; i >= 0; --i)
   {
     heapify(arr, N, i);
@@ -40,12 +42,15 @@ void heap_sort(int arr[], int N) // O( nlogn)
 
 int main()
 {
-
-  int const N = 10;
-  int arr[N] = {1, 8, -8, 60, 10, 5, 55, 67, 80, 12};
-
-  heap_sort(arr, N);
-
-  for (int i = 0; i < N; ++i)
-    std::cout << arr[i] << " ";
+  std::vector<int> arr = {12, 11, 13, 5, 6, 7};
+  HeapSort(arr);
 }
+
+// Time Complexity:
+//  Best/Average/Worst case: O(n log n) (due to heapification process).
+
+// Space Complexity:
+//  Space complexity: O(1) (in-place sorting).
+
+// Stability:
+//  Not stable: Heap sort does not preserve the relative order of equal elements.

@@ -1,13 +1,14 @@
 #include <iostream>
+#include <vector>
 
-void Marge(int *arr, int l, int m, int r)
+void Merge(std::vector<int> &arr, int left, int mid, int right)
 {
-  int *tmpArr = new int[r - l + 1];
-  int i = l;
-  int j = m + 1;
+  std::vector<int> tmpArr(right - left + 1);
+  int i = left;
+  int j = mid + 1;
   int k = 0;
 
-  while (i <= m && j <= r)
+  while (i <= mid && j <= right)
   {
     if (arr[i] < arr[j])
     {
@@ -19,50 +20,46 @@ void Marge(int *arr, int l, int m, int r)
     }
   }
 
-  while (i <= m)
+  while (i <= mid)
   {
     tmpArr[k++] = arr[i++];
   }
 
-  while (j <= r)
+  while (j <= right)
   {
     tmpArr[k++] = arr[j++];
   }
 
-  for (int i = l, v = 0; i <= r; ++i, ++v)
+  for (int i = left, v = 0; i <= right; ++i, ++v)
   {
     arr[i] = tmpArr[v];
   }
-
-  delete[] tmpArr;
 }
 
-void MargeSort(int *arr, int s, int e)
+void MergeSort(std::vector<int> &arr, int left, int right)
 {
-  if (s < e)
+  if (left < right)
   {
-    int m = (s + e) / 2;
-    MargeSort(arr, s, m);
-    MargeSort(arr, m + 1, e);
-    Marge(arr, s, m, e);
-  }
-}
+    int mid = left + (right - left) / 2;
 
-void printArr(int a[], int n)
-{
-  for (int i = 0; i < n; i++)
-  {
-    std::cout << a[i] << " ";
+    MergeSort(arr, left, mid);
+    MergeSort(arr, mid + 1, right);
+
+    Merge(arr, left, mid, right);
   }
-  std::cout << std::endl;
 }
 
 int main()
 {
-  const int size = 7;
-  int arr[size] = {55, 1, 0, 88, 2, 6, 33};
-  printArr(arr, size);
-  MargeSort(arr, 0, size - 1);
-  std::cout << std::endl;
-  printArr(arr, size);
+  std::vector<int> arr = {12, 11, 13, 5, 6, 7};
+  MergeSort(arr, 0, arr.size() - 1);
 }
+
+// Time Complexity:
+//  Best/Average/Worst case: O(n log n) (due to dividing the array into halves).
+
+// Space Complexity:
+//  Space complexity: O(n) (additional space is required to store the temporary arrays).
+
+// Stability:
+//  Stable: Equal elements retain their original relative order.

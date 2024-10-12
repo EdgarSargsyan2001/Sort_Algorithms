@@ -1,24 +1,37 @@
 #include <iostream>
+#include <vector>
 
-void selection(int *arr, int n) // O(n^2)
+void SelectionSort(std::vector<int> &arr)
 {
-    for (int i = 0; i < n; ++i)
+    int n = arr.size();
+
+    for (int i = 0; i < n - 1; ++i)
     {
-        int min = i;
+        int minIndex = i;
+
         for (int j = i + 1; j < n; ++j)
         {
-            if (arr[j] < arr[min])
-                min = j;
+            if (arr[j] < arr[minIndex])
+            {
+                minIndex = j;
+            }
         }
-
-        if (min != i)
-            std::swap(arr[i], arr[min]);
+        std::swap(arr[i], arr[minIndex]);
     }
 }
+
 int main()
 {
-    int arr[] = {6, -1, 9, 0};
-
-    int N = sizeof(arr) / sizeof(arr[0]);
-    selection(arr, N);
+    std::vector<int> arr = {64, 25, 12, 22, 11};
+    SelectionSort(arr);
 }
+
+
+// Time Complexity:
+//  Best, Average, Worst case: O(n^2) (since the entire array is iterated over for every element).
+
+// Space Complexity:
+//  Space complexity: O(1) (in-place sorting).
+
+// Stability:
+//  Not stable: Selection sort can change the relative order of equal elements.
